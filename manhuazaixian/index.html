@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>漫画在线-免费漫画在线阅读_热门漫画推荐_漫画平台导航</title>
+  <meta name="description" content="漫画在线提供海量免费漫画在线阅读，涵盖热血、恋爱、玄幻、校园等热门分类，实时更新热门漫画推荐与排行榜，是漫画爱好者追更收藏的在线漫画平台导航。">
+  <meta name="keywords" content="漫画在线,免费漫画,在线漫画阅读,漫画推荐,漫画排行榜">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%237c3aed'/%3E%3Ctext x='50' y='68' font-size='52' font-family='sans-serif' text-anchor='middle' fill='%23fff'%3E漫%3C/text%3E%3C/svg%3E">
+  <style>
+    /* ===== 全局重置与变量 ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg-body: #f7f5fc;
+      --bg-card: #ffffff;
+      --bg-soft: #f0ebfa;
+      --bg-nav: #ffffff;
+      --text-primary: #1e1b2e;
+      --text-secondary: #5a5470;
+      --text-muted: #8f8aa8;
+      --brand: #7c3aed;
+      --brand-light: #a78bfa;
+      --brand-soft: #ede9fe;
+      --accent: #f59e0b;
+      --accent-soft: #fef3c7;
+      --border: #e8e3f3;
+      --shadow-sm: 0 2px 8px rgba(124, 58, 237, 0.06);
+      --shadow-md: 0 6px 20px rgba(124, 58, 237, 0.10);
+      --shadow-hover: 0 10px 30px rgba(124, 58, 237, 0.14);
+      --radius: 16px;
+      --radius-sm: 10px;
+      --max-width: 1200px;
+      --font: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg-body);
+      color: var(--text-primary);
+      line-height: 1.65;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; transition: color .2s; }
+    ul, ol { list-style: none; }
+    img { max-width: 100%; display: block; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+    .container { max-width: var(--max-width); margin: 0 auto; padding: 0 20px; }
+    .section { padding: 48px 0; }
+    .section-head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 26px; }
+    .section-head h2 { font-size: 26px; font-weight: 700; letter-spacing: -.3px; }
+    .section-head h2 span { color: var(--brand); }
+    .section-head .more { font-size: 14px; color: var(--brand); font-weight: 500; display: inline-flex; align-items: center; gap: 4px; }
+    .section-head .more::after { content: '→'; transition: transform .2s; }
+    .section-head .more:hover::after { transform: translateX(4px); }
+
+    /* ===== 顶部导航 ===== */
+    .top-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; gap: 18px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 20px; font-weight: 800; letter-spacing: -.5px;
+      color: var(--brand); flex-shrink: 0;
+    }
+    .logo-badge {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      display: grid; place-items: center;
+      color: #fff; font-size: 18px; font-weight: 700;
+    }
+    .nav-links { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .nav-links a {
+      padding: 7px 14px; border-radius: 8px; font-size: 14px;
+      color: var(--text-secondary); font-weight: 500;
+    }
+    .nav-links a:hover { background: var(--brand-soft); color: var(--brand); }
+    .nav-search {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--bg-soft); border-radius: 10px; padding: 7px 12px;
+      min-width: 180px;
+    }
+    .nav-search input {
+      border: none; background: transparent; outline: none;
+      font-size: 14px; width: 100%; color: var(--text-primary);
+    }
+    .nav-search input::placeholder { color: var(--text-muted); }
+    .nav-search button { color: var(--brand); font-size: 16px; line-height: 1; }
+    .nav-toggle { display: none; font-size: 24px; color: var(--text-primary); }
+
+    /* ===== Banner ===== */
+    .hero {
+      background: linear-gradient(135deg, #f3edff 0%, #faf8ff 50%, #fdf6ec 100%);
+      border-radius: 0 0 32px 32px;
+      padding: 56px 0 48px;
+      margin-bottom: 10px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -80px; right: -60px;
+      width: 320px; height: 320px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(167,139,250,.25), transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -40px; left: -40px;
+      width: 220px; height: 220px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(245,158,11,.12), transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 820px; }
+    .hero-tag {
+      display: inline-block; background: var(--brand-soft); color: var(--brand);
+      font-size: 13px; font-weight: 600; padding: 5px 14px;
+      border-radius: 20px; margin-bottom: 18px; letter-spacing: .5px;
+    }
+    .hero h1 {
+      font-size: clamp(30px, 5vw, 44px);
+      font-weight: 800; line-height: 1.25; letter-spacing: -1px;
+      margin-bottom: 16px;
+    }
+    .hero h1 em { font-style: normal; color: var(--brand); }
+    .hero-desc { font-size: 17px; color: var(--text-secondary); margin-bottom: 26px; line-height: 1.8; }
+    .hero-search {
+      display: flex; background: #fff; border-radius: 14px;
+      box-shadow: var(--shadow-md); padding: 6px; max-width: 560px;
+      margin-bottom: 22px;
+    }
+    .hero-search input {
+      flex: 1; border: none; outline: none; padding: 12px 16px;
+      font-size: 15px; background: transparent; color: var(--text-primary);
+      border-radius: 10px;
+    }
+    .hero-search input::placeholder { color: var(--text-muted); }
+    .hero-search button {
+      background: var(--brand); color: #fff; padding: 0 26px;
+      border-radius: 10px; font-size: 15px; font-weight: 600;
+      transition: background .2s;
+    }
+    .hero-search button:hover { background: #6d28d9; }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 10px; }
+    .hero-btns a {
+      background: #fff; border: 1px solid var(--border);
+      padding: 8px 18px; border-radius: 10px; font-size: 14px;
+      color: var(--text-secondary); font-weight: 500;
+      box-shadow: var(--shadow-sm); transition: all .2s;
+    }
+    .hero-btns a:hover { border-color: var(--brand-light); color: var(--brand); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+    /* ===== 内容简介 ===== */
+    .intro-box {
+      background: var(--bg-card); border-radius: var(--radius);
+      padding: 32px 36px; box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
+    .intro-box p { color: var(--text-secondary); font-size: 16px; line-height: 1.85; margin-bottom: 14px; }
+    .intro-box p:last-child { margin-bottom: 0; }
+    .intro-box strong { color: var(--brand); font-weight: 600; }
+
+    /* ===== 热门推荐卡片 ===== */
+    .card-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--bg-card); border-radius: var(--radius);
+      overflow: hidden; box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+      transition: transform .25s, box-shadow .25s;
+      display: flex; flex-direction: column;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-hover); }
+    .card-cover {
+      height: 140px; display: flex; align-items: flex-end; padding: 14px;
+      position: relative;
+      background: linear-gradient(135deg, #c4b5fd, #7c3aed);
+    }
+    .card-cover.c1 { background: linear-gradient(135deg, #a78bfa, #6d28d9); }
+    .card-cover.c2 { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+    .card-cover.c3 { background: linear-gradient(135deg, #34d399, #059669); }
+    .card-cover.c4 { background: linear-gradient(135deg, #f472b6, #db2777); }
+    .card-cover.c5 { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+    .card-cover.c6 { background: linear-gradient(135deg, #f87171, #dc2626); }
+    .card-cover.c7 { background: linear-gradient(135deg, #c084fc, #9333ea); }
+    .card-cover.c8 { background: linear-gradient(135deg, #2dd4bf, #0d9488); }
+    .card-cover span {
+      font-size: 13px; color: rgba(255,255,255,.92); font-weight: 600;
+      background: rgba(0,0,0,.22); padding: 4px 10px; border-radius: 6px;
+      backdrop-filter: blur(4px);
+    }
+    .card-body { padding: 16px 18px 18px; flex: 1; display: flex; flex-direction: column; }
+    .card-body h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; line-height: 1.4; }
+    .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+    .card-tags span {
+      font-size: 12px; background: var(--brand-soft); color: var(--brand);
+      padding: 2px 9px; border-radius: 20px; font-weight: 500;
+    }
+    .card-tags span.alt { background: var(--accent-soft); color: #b45309; }
+    .card-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; margin-bottom: 12px; flex: 1; }
+    .card-meta { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--text-muted); }
+    .card-meta .score { color: var(--accent); font-weight: 700; font-size: 13px; }
+
+    /* ===== 最新更新列表 ===== */
+    .update-list { display: flex; flex-direction: column; gap: 12px; }
+    .update-item {
+      background: var(--bg-card); border-radius: var(--radius-sm);
+      padding: 16px 20px; display: flex; align-items: flex-start; gap: 16px;
+      border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .update-item:hover { transform: translateX(4px); box-shadow: var(--shadow-md); }
+    .update-badge {
+      flex-shrink: 0; width: 46px; height: 46px; border-radius: 12px;
+      background: var(--brand-soft); color: var(--brand);
+      display: grid; place-items: center; font-size: 13px; font-weight: 700;
+      text-align: center; line-height: 1.2;
+    }
+    .update-content { flex: 1; min-width: 0; }
+    .update-content h4 { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+    .update-content p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+    .update-time { font-size: 12px; color: var(--text-muted); flex-shrink: 0; padding-top: 2px; }
+
+    /* ===== 分类入口 ===== */
+    .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 14px; }
+    .cat-item {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius-sm); padding: 20px 12px;
+      text-align: center; box-shadow: var(--shadow-sm);
+      transition: all .2s; font-weight: 500; font-size: 15px;
+    }
+    .cat-item:hover { border-color: var(--brand-light); color: var(--brand); transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .cat-item .emoji { display: block; font-size: 26px; margin-bottom: 8px; }
+
+    /* ===== 深度解析正文 ===== */
+    .deep-read {
+      background: var(--bg-card); border-radius: var(--radius);
+      padding: 36px 40px; box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
+    .deep-read h2 { font-size: 26px; margin-bottom: 20px; font-weight: 700; }
+    .deep-read h2 span { color: var(--brand); }
+    .deep-read h3 { font-size: 19px; margin: 26px 0 12px; font-weight: 700; color: var(--brand); }
+    .deep-read p { font-size: 16px; color: var(--text-secondary); line-height: 1.9; margin-bottom: 16px; }
+    .deep-read strong { color: var(--text-primary); font-weight: 600; }
+    .deep-read .highlight {
+      background: var(--brand-soft); border-left: 4px solid var(--brand);
+      padding: 16px 20px; border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      margin: 20px 0; font-size: 15px; color: var(--text-primary); line-height: 1.8;
+    }
+
+    /* ===== 体验指南 ===== */
+    .guide-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 18px; }
+    .guide-card {
+      background: var(--bg-card); border-radius: var(--radius-sm);
+      padding: 24px 22px; border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm); transition: transform .2s;
+    }
+    .guide-card:hover { transform: translateY(-3px); }
+    .guide-card .icon { font-size: 28px; margin-bottom: 12px; }
+    .guide-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+    .guide-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ===== FAQ ===== */
+    .faq-list { display: flex; flex-direction: column; gap: 12px; }
+    .faq-item {
+      background: var(--bg-card); border-radius: var(--radius-sm);
+      border: 1px solid var(--border); overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; text-align: left; padding: 18px 22px;
+      font-size: 16px; font-weight: 600; color: var(--text-primary);
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px; transition: background .2s;
+    }
+    .faq-q:hover { background: var(--bg-soft); }
+    .faq-q .arrow { transition: transform .25s; color: var(--brand); font-size: 14px; }
+    .faq-item.open .faq-q .arrow { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden; transition: max-height .35s ease;
+      padding: 0 22px; color: var(--text-secondary); font-size: 15px; line-height: 1.8;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding: 0 22px 20px; }
+
+    /* ===== 评论 ===== */
+    .comment-list { display: flex; flex-direction: column; gap: 14px; }
+    .comment-item {
+      background: var(--bg-card); border-radius: var(--radius-sm);
+      padding: 18px 22px; border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .comment-head { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+    .avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, #c4b5fd, #7c3aed);
+      display: grid; place-items: center;
+      color: #fff; font-size: 15px; font-weight: 700; flex-shrink: 0;
+    }
+    .avatar.v2 { background: linear-gradient(135deg, #fbbf24, #f59e0b); }
+    .avatar.v3 { background: linear-gradient(135deg, #34d399, #059669); }
+    .avatar.v4 { background: linear-gradient(135deg, #f472b6, #db2777); }
+    .avatar.v5 { background: linear-gradient(135deg, #60a5fa, #2563eb); }
+    .comment-name { font-weight: 600; font-size: 14px; }
+    .comment-time { font-size: 12px; color: var(--text-muted); margin-left: auto; }
+    .comment-text { font-size: 14px; color: var(--text-secondary); line-height: 1.75; }
+
+    /* ===== 资讯 ===== */
+    .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 18px; }
+    .news-card {
+      background: var(--bg-card); border-radius: var(--radius-sm);
+      padding: 22px 24px; border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm); transition: all .2s;
+    }
+    .news-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .news-date { font-size: 12px; color: var(--brand); font-weight: 600; margin-bottom: 8px; }
+    .news-card h4 { font-size: 16px; font-weight: 700; margin-bottom: 8px; line-height: 1.45; }
+    .news-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+    /* ===== 页脚 ===== */
+    .footer {
+      background: #1e1b2e; color: #b8b3cc;
+      padding: 44px 0 32px; margin-top: 10px;
+      border-radius: 32px 32px 0 0;
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; margin-bottom: 32px; }
+    .footer-brand { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 12px; }
+    .footer-brand .logo-badge { width: 32px; height: 32px; font-size: 15px; }
+    .footer p { font-size: 13px; line-height: 1.8; color: #8f8aa8; }
+    .footer h5 { color: #fff; font-size: 15px; font-weight: 600; margin-bottom: 14px; }
+    .footer ul li { margin-bottom: 8px; }
+    .footer ul li a { font-size: 13px; color: #8f8aa8; }
+    .footer ul li a:hover { color: var(--brand-light); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding-top: 22px; font-size: 12px; color: #6b6580;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 900px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      .nav-inner { gap: 10px; }
+      .nav-search { min-width: 0; flex: 1; }
+      .deep-read { padding: 26px 22px; }
+      .intro-box { padding: 24px 22px; }
+    }
+    @media (max-width: 640px) {
+      .hero { padding: 36px 0 32px; border-radius: 0 0 24px 24px; }
+      .hero h1 { font-size: 28px; }
+      .hero-desc { font-size: 15px; }
+      .hero-search { flex-direction: column; gap: 8px; padding: 10px; }
+      .hero-search button { padding: 12px; }
+      .section { padding: 32px 0; }
+      .section-head h2 { font-size: 22px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .news-grid { grid-template-columns: 1fr; }
+      .guide-grid { grid-template-columns: 1fr 1fr; }
+      .cat-grid { grid-template-columns: repeat(3, 1fr); }
+      .update-item { flex-wrap: wrap; gap: 10px; }
+      .update-time { margin-left: auto; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+    }
+    @media (max-width: 400px) {
+      .guide-grid { grid-template-columns: 1fr; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== 顶部导航 ========== -->
+  <header class="top-nav">
+    <div class="container nav-inner">
+      <a href="/#home" class="logo">
+        <span class="logo-badge">漫</span>
+        漫画在线
+      </a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="/#home">首页</a>
+        <a href="/#hot">热门推荐</a>
+        <a href="/#latest">最新更新</a>
+        <a href="/#category">分类</a>
+        <a href="/#ranking">排行榜</a>
+        <a href="/#faq">常见问题</a>
+      </nav>
+      <div class="nav-search">
+        <input type="search" placeholder="搜索漫画、作者..." aria-label="搜索漫画">
+        <button aria-label="搜索">🔍</button>
+      </div>
+      <button class="nav-toggle" aria-label="菜单">☰</button>
+    </div>
+  </header>
+
+  <!-- ========== 首屏 Banner ========== -->
+  <section class="hero" id="home">
+    <div class="container hero-inner">
+      <span class="hero-tag">📚 免费阅读 · 每日更新</span>
+      <h1><em>漫画在线</em>，海量热门漫画免费畅读</h1>
+      <p class="hero-desc">
+        聚合热血、恋爱、玄幻、校园等全品类漫画资源，支持在线追更与收藏。<br>
+        无论你是日漫爱好者还是国漫支持者，这里都能找到你的下一部心头好。
+      </p>
+      <div class="hero-search">
+        <input type="search" placeholder="输入漫画名、作者或关键词，立刻开始阅读" aria-label="搜索漫画">
+        <button>搜索</button>
+      </div>
+      <div class="hero-btns">
+        <a href="/#hot">🔥 热门推荐</a>
+        <a href="/#latest">🆕 最新更新</a>
+        <a href="/#ranking">🏆 排行榜</a>
+        <a href="/#category">📂 分类浏览</a>
+        <a href="/#deep">📖 深度解析</a>
+        <a href="/#faq">❓ 常见问题</a>
+        <a href="/#comments">💬 读者评论</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 内容简介 ========== -->
+  <section class="section" id="intro">
+    <div class="container">
+      <div class="intro-box">
+        <p><strong>漫画在线</strong>阅读已经成为越来越多漫画爱好者的日常选择。相比传统纸质漫画，在线漫画平台凭借更新快、分类全、跨设备阅读等优势，吸引了大量年轻读者。无论你偏爱热血战斗、甜蜜恋爱、悬疑推理还是玄幻修仙，一个优质的<strong>漫画在线</strong>平台都能让你随时随地打开即读，不再受时间和地点限制。</p>
+        <p>本页面围绕<strong>漫画在线</strong>这一核心需求，整理了热门漫画推荐、最新更新动态、分类导航以及深度阅读指南。我们关注的不只是“有没有得看”，更关注“值不值得看”——每部推荐作品都附有类型标签、看点摘要和读者口碑，帮助你快速判断是否符合口味。对于追更党，最新更新列表可以让你第一时间掌握连载进度；对于新入坑的读者，分类入口和FAQ能帮你理清阅读顺序。</p>
+        <p>如果你正在寻找一个稳定、清晰、内容丰富的<strong>漫画在线</strong>阅读入口，建议收藏本页。我们会持续更新推荐榜单和资讯动态，让你不错过每一部值得追的好漫画。无论你是利用碎片时间看几话，还是周末一口气补完一整部，这里都能成为你漫画阅读的起点。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 热门推荐 ========== -->
+  <section class="section" id="hot">
+    <div class="container">
+      <div class="section-head">
+        <h2>🔥 热门<span>漫画推荐</span></h2>
+        <a href="/#ranking" class="more">查看完整榜单</a>
+      </div>
+      <div class="card-grid">
+        <article class="card">
+          <div class="card-cover c1"><span>热血 · 战斗</span></div>
+          <div class="card-body">
+            <h3>《苍焰纪元》</h3>
+            <div class="card-tags"><span>热血</span><span>冒险</span><span class="alt">连载中</span></div>
+            <p class="card-desc">少年觉醒远古焰之力，在崩坏大陆上集结伙伴对抗暗黑教团。战斗分镜极具冲击力，每周三更新。</p>
+            <div class="card-meta"><span>更新至 128 话</span><span class="score">★ 9.4</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-cover c2"><span>恋爱 · 校园</span></div>
+          <div class="card-body">
+            <h3>《邻座的微甜距离》</h3>
+            <div class="card-tags"><span>恋爱</span><span>校园</span><span class="alt">甜宠</span></div>
+            <p class="card-desc">高冷学霸与元气少女的座位只隔一条过道，从互看不顺眼到心跳加速，细腻的情感刻画让人上头。</p>
+            <div class="card-meta"><span>更新至 86 话</span><span class="score">★ 9.2</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-cover c3"><span>玄幻 · 修仙</span></div>
+          <div class="card-body">
+            <h3>《万古灵尊》</h3>
+            <div class="card-tags"><span>玄幻</span><span>修仙</span><span class="alt">爽文</span></div>
+            <p class="card-desc">废柴少年偶得神秘灵珠，逆天改命一路碾压。节奏明快，打脸情节密集，适合喜欢爽感的读者。</p>
+            <div class="card-meta"><span>更新至 215 话</span><span class="score">★ 8.9</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-cover c4"><span>悬疑 · 推理</span></div>
+          <div class="card-body">
+            <h3>《第七号证词》</h3>
+            <div class="card-tags"><span>悬疑</span><span>推理</span><span class="alt">烧脑</span></div>
+            <p class="card-desc">每一话都是一起独立案件，主线却暗藏惊人关联。反转不断，适合喜欢边看边推理的读者。</p>
+            <div class="card-meta"><span>更新至 64 话</span><span class="score">★ 9.6</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-cover c5"><span>科幻 · 机甲</span></div>
+          <div class="card-body">
+            <h3>《星轨机甲师》</h3>
+            <div class="card-tags"><span>科幻</span><span>机甲</span><span class="alt">热血</span></div>
+            <p class="card-desc">星际殖民时代，少年驾驶员与远古机甲签订契约。宏大世界观搭配精细机设，视觉体验出色。</p>
+            <div class="card-meta"><span>更新至 97 话</span><span class="score">★ 9.1</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-cover c6"><span>搞笑 · 日常</span></div>
+          <div class="card-body">
+            <h3>《我家猫会说话》</h3>
+            <div class="card-tags"><span>搞笑</span><span>日常</span><span class="alt">治愈</span></div>
+            <p class="card-desc">社畜青年捡到一只毒舌橘猫，从此生活鸡飞狗跳。轻松解压，每话三分钟就能笑出声。</p>
+            <div class="card-meta"><span>更新至 152 话</span><span class="score">★ 9.0</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-cover c7"><span>古风 · 权谋</span></div>
+          <div class="card-body">
+            <h3>《凤阙长歌》</h3>
+            <div class="card-tags"><span>古风</span><span>权谋</span><span class="alt">大女主</span></div>
+            <p class="card-desc">将门之女入宫为质，步步为营搅动朝堂风云。画风精致，台词考究，权谋线逻辑在线。</p>
+            <div class="card-meta"><span>更新至 73 话</span><span class="score">★ 9.3</span></div>
+          </div>
+        </article>
+        <article class="card">
+          <div class="card-cover c8"><span>运动 · 竞技</span></div>
+          <div class="card-body">
+            <h3>《篮板之下》</h3>
+            <div class="card-tags"><span>运动</span><span>篮球</span><span class="alt">热血</span></div>
+            <p class="card-desc">身高不足的后卫用速度与技术弥补天赋，带领弱旅冲击全国大赛。比赛分镜张力十足。</p>
+            <div class="card-meta"><span>更新至 111 话</span><span class="score">★ 9.2</span></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 最新更新 ========== -->
+  <section class="section" id="latest">
+    <div class="container">
+      <div class="section-head">
+        <h2>🆕 最新<span>更新动态</span></h2>
+        <a href="/#ranking" class="more">更多更新</a>
+      </div>
+      <div class="update-list">
+        <div class="update-item">
+          <div class="update-badge">11/07</div>
+          <div class="update-content">
+            <h4>《苍焰纪元》第128话「炎之觉醒」</h4>
+            <p>主角突破封印，焰之力全面解放，与暗黑教团展开正面交锋。</p>
+          </div>
+          <span class="update-time">2小时前</span>
+        </div>
+        <div class="update-item">
+          <div class="update-badge">11/07</div>
+          <div class="update-content">
+            <h4>《邻座的微甜距离》第86话「文化祭的约定」</h4>
+            <p>两人终于在文化祭上拉近距离，但转学生的出现让关系再生变数。</p>
+          </div>
+          <span class="update-time">4小时前</span>
+        </div>
+        <div class="update-item">
+          <div class="update-badge">11/06</div>
+          <div class="update-content">
+            <h4>《第七号证词》第64话「消失的监控」</h4>
+            <p>关键证据突然失效，主角开始怀疑团队内部存在内鬼。</p>
+          </div>
+          <span class="update-time">昨天</span>
+        </div>
+        <div class="update-item">
+          <div class="update-badge">11/06</div>
+          <div class="update-content">
+            <h4>《万古灵尊》第215话「灵尊归来」</h4>
+            <p>主角闭关结束，以全新境界重返宗门，昔日对手闻风丧胆。</p>
+          </div>
+          <span class="update-time">昨天</span>
+        </div>
+        <div class="update-item">
+          <div class="update-badge">11/05</div>
+          <div class="update-content">
+            <h4>《星轨机甲师》第97话「星海突围」</h4>
+            <p>舰队陷入包围，主角驾驶机甲单骑突入敌阵打开缺口。</p>
+          </div>
+          <span class="update-time">2天前</span>
+        </div>
+        <div class="update-item">
+          <div class="update-badge">11/05</div>
+          <div class="update-content">
+            <h4>《凤阙长歌》第73话「暗棋」</h4>
+            <p>女主布局多年的暗线浮出水面，朝堂格局即将重新洗牌。</p>
+          </div>
+          <span class="update-time">2天前</span>
+        </div>
+        <div class="update-item">
+          <div class="update-badge">11/04</div>
+          <div class="update-content">
+            <h4>《我家猫会说话》第152话「猫咪的叛逆期」</h4>
+            <p>橘猫突然离家出走，主角满城寻找却发现它在隔壁蹭吃蹭喝。</p>
+          </div>
+          <span class="update-time">3天前</span>
+        </div>
+        <div class="update-item">
+          <div class="update-badge">11/04</div>
+          <div class="update-content">
+            <h4>《篮板之下》第111话「最后一攻」</h4>
+            <p>比赛仅剩8秒，落后2分，主角持球面对双人包夹做出抉择。</p>
+          </div>
+          <span class="update-time">3天前</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 分类入口 ========== -->
+  <section class="section" id="category">
+    <div class="container">
+      <div class="section-head">
+        <h2>📂 漫画<span>分类导航</span></h2>
+        <a href="/#hot" class="more">按分类浏览</a>
+      </div>
+      <div class="cat-grid">
+        <a href="/#hot" class="cat-item"><span class="emoji">🔥</span>热血</a>
+        <a href="/#hot" class="cat-item"><span class="emoji">💕</span>恋爱</a>
+        <a href="/#hot" class="cat-item"><span class="emoji">⚔️</span>玄幻</a>
+        <a href="/#hot" class="cat-item"><span class="emoji">🏫</span>校园</a>
+        <a href="/#hot" class="cat-item"><span class="emoji">🕵️</span>悬疑</a>
+        <a href="/#hot" class="cat-item"><span class="emoji">🤖</span>科幻</a>
+        <a href="/#hot" class="cat-item"><span class="emoji">😂</span>搞笑</a>
+        <a href="/#hot" class="cat-item"><span class="emoji">🏀</span>运动</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 深度解析 ========== -->
+  <section class="section" id="deep">
+    <div class="container">
+      <div class="deep-read">
+        <h2>📖 深度解析：<span>漫画在线</span>阅读的选品与消费逻辑</h2>
+        <p>当我们在搜索<strong>漫画在线</strong>时，内心往往带着不同的期待：有人想找一部能打发通勤时间的轻松搞笑漫，有人希望追到一部世界观宏大的热血长篇，也有人只是想知道最近哪部作品口碑最好。理解这些不同的搜索意图，才能让在线阅读体验真正高效。</p>
+        <h3>类型题材的吸引力在哪里</h3>
+        <p>当前<strong>漫画在线</strong>平台上的热门作品，大致可以分为几大阵营。热血少年漫以战斗成长为主线，强调友情、努力与胜利，代表作如《苍焰纪元》，其核心吸引力在于紧凑的升级节奏和富有张力的对决场面。恋爱校园漫则主打情感共鸣，《邻座的微甜距离》通过细腻的日常互动和恰到好处的误会设计，让读者在轻松氛围中获得情绪满足。玄幻修仙类如《万古灵尊》，凭借“废柴逆袭”的经典框架和密集的爽点设置，成为追求阅读快感读者的首选。悬疑推理类《第七号证词》则走的另一条路——每话一个独立案件，同时埋设贯穿全篇的暗线，适合喜欢动脑的读者反复品味。</p>
+        <h3>内容吸引点与消费体验</h3>
+        <p>一部漫画能否留住读者，除了题材，更取决于节奏把控。优质的<strong>漫画在线</strong>作品通常在开篇三话内完成“人设建立—冲突引入—第一个小高潮”的闭环，让读者迅速建立追更习惯。分镜语言同样关键：战斗漫追求冲击力与速度感，需要大画格和动感线条；日常漫则依赖表情特写和留白节奏。从消费体验看，条漫与页漫各有拥趸——条漫适合手机竖屏滑动阅读，页漫则更贴近传统翻页习惯，许多<strong>漫画在线</strong>平台已同时提供两种排版模式。</p>
+        <h3>人物与角色分析</h3>
+        <p>角色是漫画的灵魂。以《凤阙长歌》为例，女主角的成长弧光并非一蹴而就，而是通过一次次抉择逐步立起来：从被动入宫到主动布局，每一步都有合理动机支撑。这种“有代价的成长”比单纯开挂更令人信服。再看《星轨机甲师》，主角与机甲之间的默契培养贯穿全篇，战斗不仅是武力对抗，更是信任与意志的较量。读者之所以愿意持续追更，本质上是在意这些角色的命运走向。</p>
+        <h3>同类比较与选品建议</h3>
+        <p>同样是玄幻修仙，《万古灵尊》走的是快节奏爽文路线，适合追求即时反馈的读者；而偏重世界观铺陈和人物群像的作品则更适合有耐心细品的读者。同样是恋爱题材，《邻座的微甜距离》偏向纯爱甜宠，而带有现实向思考的恋爱漫则会更侧重人物心理刻画。在<strong>漫画在线</strong>平台选品时，建议先明确自己的阅读场景：碎片时间选短平快的单元剧或搞笑漫，整块时间再投入长篇连载。此外，关注作品的更新频率和已完结话数也很重要——追更中的作品适合享受讨论氛围，已完结作品则适合一口气补完。</p>
+        <h3>读者搜索这个词通常想了解什么</h3>
+        <p>搜索<strong>漫画在线</strong>的用户，核心诉求大多集中在三点：一是在哪里能免费或低成本读到正版内容，二是有哪些值得看的作品推荐，三是如何高效追更和收藏。因此，一个结构清晰的漫画在线页面，应当同时提供分类入口、热门榜单、更新动态和阅读指引，而不是简单罗列链接。本页面的设计正是围绕这些需求展开，力求让每一位读者都能快速找到适合自己的阅读路径。</p>
+        <div class="highlight">
+          💡 编辑建议：初次接触<strong>漫画在线</strong>阅读的新读者，可以先从已完结的短篇或单元剧入手，培养阅读节奏感，再逐步尝试长篇连载。追更时善用收藏功能，每次更新都能第一时间收到提醒，避免错过剧情。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 体验指南 ========== -->
+  <section class="section" id="guide">
+    <div class="container">
+      <div class="section-head">
+        <h2>🧭 在线阅读<span>体验指南</span></h2>
+        <a href="/#faq" class="more">常见问题</a>
+      </div>
+      <div class="guide-grid">
+        <div class="guide-card">
+          <div class="icon">📱</div>
+          <h4>移动端优先</h4>
+          <p>页面针对手机竖屏优化，滑动翻页流畅，通勤路上单手也能轻松追更。</p>
+        </div>
+        <div class="guide-card">
+          <div class="icon">🔖</div>
+          <h4>收藏与追更</h4>
+          <p>遇到喜欢的作品一键收藏，更新动态一目了然，再也不用担心忘记看到哪一话。</p>
+        </div>
+        <div class="guide-card">
+          <div class="icon">🗂️</div>
+          <h4>分类筛选清晰</h4>
+          <p>按热血、恋爱、玄幻等标签快速筛选，减少无效浏览，直达感兴趣的内容。</p>
+        </div>
+        <div class="guide-card">
+          <div class="icon">🔗</div>
+          <h4>相关推荐延伸</h4>
+          <p>每部作品下方附有同类推荐，看完一部马上找到下一部，阅读路径自然延伸。</p>
+        </div>
+        <div class="guide-card">
+          <div class="icon">🌙</div>
+          <h4>护眼阅读模式</h4>
+          <p>支持日间与夜间模式切换，暗光环境下减少屏幕刺激，长时间阅读更舒适。</p>
+        </div>
+        <div class="guide-card">
+          <div class="icon">🔄</div>
+          <h4>更新及时可见</h4>
+          <p>最新更新板块按时间排序，新话上线第一时间展示，追更党不会错过任何动态。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FAQ ========== -->
+  <section class="section" id="faq">
+    <div class="container">
+      <div class="section-head">
+        <h2>❓ 常见<span>问题解答</span></h2>
+        <a href="/#comments" class="more">更多讨论</a>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item open">
+          <button class="faq-q">漫画在线阅读需要付费吗？<span class="arrow">▼</span></button>
+          <div class="faq-a">大部分漫画在线平台提供免费阅读模式，通过广告或部分章节付费解锁来维持运营。本页面推荐的作品多数可免费阅读前若干话，后续章节视平台政策而定。建议优先选择标注“免费”或“限免”的作品，同时关注平台的签到、任务等福利活动，可以在不付费的情况下读到更多内容。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">如何判断一部漫画是否值得追？<span class="arrow">▼</span></button>
+          <div class="faq-a">可以从三个维度快速判断：一是看更新频率和已更话数，稳定周更且已有30话以上的作品通常质量较有保障；二是看读者评分和评论区的真实反馈，重点关注对剧情节奏和画风的评价；三是先试读前5至10话，如果在这个区间内能让你产生“想知道后续”的冲动，就值得加入收藏。避免只看封面或标题就决定追更。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">热血、恋爱、玄幻这些分类应该先从哪类看起？<span class="arrow">▼</span></button>
+          <div class="faq-a">如果你是漫画在线阅读的新用户，建议从搞笑日常或短篇恋爱漫入手，这类作品单话信息量适中、阅读压力小，容易建立阅读习惯。热血流和玄幻修仙类往往需要一定的世界观理解成本，适合已经习惯漫画叙事节奏的读者。悬疑推理类则建议在精力充沛时阅读，因为需要关注线索细节。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">条漫和页漫有什么区别，哪种更适合手机阅读？<span class="arrow">▼</span></button>
+          <div class="faq-a">条漫是纵向长条排版，专为手机滑动阅读设计，画面连贯、节奏感强；页漫是传统翻页排版，一页内包含多个分镜，信息密度更高。在手机端阅读时，条漫的体验通常更流畅，无需频繁缩放；页漫则更适合在平板或电脑上阅读。目前许多漫画在线平台支持两种模式切换，可以根据设备和阅读场景灵活选择。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">追更中的漫画一般多久更新一次？<span class="arrow">▼</span></button>
+          <div class="faq-a">更新频率因作品和平台而异。常见的更新周期有周更、双周更和月更，部分人气作品会加更至每周两话。本页面最新更新板块会标注作品的具体更新状态和最近更新时间，追更前可以先确认更新节奏是否符合自己的等待耐心。如果不想追更，可以优先选择已完结或已积累大量话数的作品，方便一次性阅读。</div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">有没有类似《苍焰纪元》的热血漫画推荐？<span class="arrow">▼</span></button>
+          <div class="faq-a">如果你喜欢《苍焰纪元》这类热血战斗题材，可以尝试《星轨机甲师》（科幻机甲方向）和《篮板之下》（运动竞技方向），两者同样强调成长与团队协作，战斗/比赛场面张力十足。此外，玄幻类的《万古灵尊》在升级节奏上与热血漫有相似之处，但更偏重修炼体系。建议根据自己喜欢的“战斗类型”——冷兵器、机甲还是体育竞技——来做进一步选择。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 用户评论 ========== -->
+  <section class="section" id="comments">
+    <div class="container">
+      <div class="section-head">
+        <h2>💬 读者<span>热评</span></h2>
+        <a href="/#news" class="more">相关资讯</a>
+      </div>
+      <div class="comment-list">
+        <div class="comment-item">
+          <div class="comment-head">
+            <div class="avatar">漫</div>
+            <span class="comment-name">追更小能手</span>
+            <span class="comment-time">2026-11-06</span>
+          </div>
+          <p class="comment-text">《苍焰纪元》最新一话真的燃爆了，主角终于不再藏实力，期待下一话打戏分镜！漫画在线追更最爽的就是这种等更新的期待感。</p>
+        </div>
+        <div class="comment-item">
+          <div class="comment-head">
+            <div class="avatar v2">橘</div>
+            <span class="comment-name">橘猫控阿宅</span>
+            <span class="comment-time">2026-11-05</span>
+          </div>
+          <p class="comment-text">《我家猫会说话》是我每天的快乐源泉，每话三分钟，笑完继续搬砖。这种轻松向作品太适合漫画在线碎片时间阅读了。</p>
+        </div>
+        <div class="comment-item">
+          <div class="comment-head">
+            <div class="avatar v3">悬</div>
+            <span class="comment-name">悬疑爱好者K</span>
+            <span class="comment-time">2026-11-04</span>
+          </div>
+          <p class="comment-text">《第七号证词》的逻辑确实在线，但最近几话节奏有点拖，希望作者能加快主线推进。整体还是值得追的。</p>
+        </div>
+        <div class="comment-item">
+          <div class="comment-head">
+            <div class="avatar v4">甜</div>
+            <span class="comment-name">甜度超标</span>
+            <span class="comment-time">2026-11-03</span>
+          </div>
+          <p class="comment-text">《邻座的微甜距离》文化祭那话我反复看了三遍！这种细腻的恋爱漫在漫画在线平台不算多，希望多推荐一些同类作品。</p>
+        </div>
+        <div class="comment-item">
+          <div class="comment-head">
+            <div class="avatar v5">玄</div>
+            <span class="comment-name">玄幻老书虫</span>
+            <span class="comment-time">2026-11-02</span>
+          </div>
+          <p class="comment-text">《万古灵尊》爽是爽，但套路感比较重。适合不想动脑的时候看，追求剧情深度的可能不太适合。</p>
+        </div>
+        <div class="comment-item">
+          <div class="comment-head">
+            <div class="avatar">星</div>
+            <span class="comment-name">星轨机师粉</span>
+            <span class="comment-time">2026-11-01</span>
+          </div>
+          <p class="comment-text">机甲设定太帅了，看得出作者做了很多功课。漫画在线平台如果能提供高清大图模式就更好了，有些机设细节想看仔细。</p>
+        </div>
+        <div class="comment-item">
+          <div class="comment-head">
+            <div class="avatar v2">篮</div>
+            <span class="comment-name">篮板下的风</span>
+            <span class="comment-time">2026-10-30</span>
+          </div>
+          <p class="comment-text">《篮板之下》的比赛分镜做得真好，有种看动画的感觉。希望作者注意身体，稳定周更就好，别断更。</p>
+        </div>
+        <div class="comment-item">
+          <div class="comment-head">
+            <div class="avatar v3">古</div>
+            <span class="comment-name">古风长歌</span>
+            <span class="comment-time">2026-10-28</span>
+          </div>
+          <p class="comment-text">《凤阙长歌》的台词真讲究，权谋线也不降智。不过前几话人物有点多，差点没记住谁是谁，建议新读者慢慢看。</p>
+        </div>
+        <div class="comment-item">
+          <div class="comment-head">
+            <div class="avatar v4">路</div>
+            <span class="comment-name">路过的读者</span>
+            <span class="comment-time">2026-10-26</span>
+          </div>
+          <p class="comment-text">这个漫画在线页面的分类挺清楚的，找漫画方便多了。之前一直在各个平台之间来回搜，现在一个页面就能看到主要推荐。</p>
+        </div>
+        <div class="comment-item">
+          <div class="comment-head">
+            <div class="avatar v5">夜</div>
+            <span class="comment-name">夜读模式党</span>
+            <span class="comment-time">2026-10-24</span>
+          </div>
+          <p class="comment-text">建议所有漫画在线平台都做好夜间模式，晚上看漫画眼睛真的顶不住。这个页面适配还不错，希望继续保持。</p>
+        </div>
+        <div class="comment-item">
+          <div class="comment-head">
+            <div class="avatar">新</div>
+            <span class="comment-name">新入坑小白</span>
+            <span class="comment-time">2026-10-22</span>
+          </div>
+          <p class="comment-text">刚开始看漫画，不知道从哪部开始。看了深度解析那部分，决定先试试《邻座的微甜距离》，希望不会让我失望。</p>
+        </div>
+        <div class="comment-item">
+          <div class="comment-head">
+            <div class="avatar v2">更</div>
+            <span class="comment-name">更新提醒君</span>
+            <span class="comment-time">2026-10-20</span>
+          </div>
+          <p class="comment-text">最新更新列表挺实用的，不用一个个点进去看进度。如果能加个“只看已收藏”的筛选就更完美了。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 相关资讯 ========== -->
+  <section class="section" id="news">
+    <div class="container">
+      <div class="section-head">
+        <h2>📰 漫画在线<span>相关资讯</span></h2>
+        <a href="/#hot" class="more">返回推荐</a>
+      </div>
+      <div class="news-grid">
+        <div class="news-card">
+          <div class="news-date">2026-11-06</div>
+          <h4>《苍焰纪元》动画化决定，漫画在线热度再创新高</h4>
+          <p>官方宣布《苍焰纪元》将改编为TV动画，原作者担任系列构成。消息公布后，该作在多个漫画在线平台的阅读量单日增长超过三成。</p>
+        </div>
+        <div class="news-card">
+          <div class="news-date">2026-11-04</div>
+          <h4>本周漫画在线热门榜单出炉：恋爱题材占比上升</h4>
+          <p>最新一周榜单显示，恋爱校园类作品在前十中占据四席，读者对轻松情感向内容的需求持续走高。悬疑推理类紧随其后。</p>
+        </div>
+        <div class="news-card">
+          <div class="news-date">2026-11-02</div>
+          <h4>《第七号证词》作者访谈：推理漫画如何保持新鲜感</h4>
+          <p>作者在访谈中透露，每个案件的反转都经过至少三轮逻辑推演，主线暗线会逐步收束。漫画在线连载已进入最终篇章。</p>
+        </div>
+        <div class="news-card">
+          <div class="news-date">2026-10-30</div>
+          <h4>漫画在线阅读趋势报告：移动端占比超九成</h4>
+          <p>行业报告指出，漫画在线阅读中手机端占比已达92%，条漫格式成为主流。读者平均单次阅读时长为18分钟。</p>
+        </div>
+        <div class="news-card">
+          <div class="news-date">2026-10-27</div>
+          <h4>《凤阙长歌》推出番外篇，讲述配角往事</h4>
+          <p>官方番外篇已上线，以配角视角补完正篇中未展开的支线剧情。漫画在线平台同步更新，读者可在正篇页面找到入口。</p>
+        </div>
+        <div class="news-card">
+          <div class="news-date">2026-10-24</div>
+          <h4>多部漫画在线作品完结，读者迎来补番好时机</h4>
+          <p>本月共有四部人气漫画正式完结，涵盖热血、恋爱和玄幻类型。对于不喜欢追更的读者，现在是集中阅读的好机会。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== 页脚 ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand"><span class="logo-badge">漫</span> 漫画在线</div>
+          <p>汇聚热门漫画推荐、最新更新动态与分类导航，为漫画爱好者提供清晰的在线阅读指引。页面内容持续更新，欢迎收藏关注。</p>
+        </div>
+        <div>
+          <h5>热门内容</h5>
+          <ul>
+            <li><a href="/#hot">热血漫画推荐</a></li>
+            <li><a href="/#hot">恋爱漫画推荐</a></li>
+            <li><a href="/#hot">玄幻修仙漫画</a></li>
+            <li><a href="/#latest">最新更新列表</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>快速入口</h5>
+          <ul>
+            <li><a href="/#category">分类导航</a></li>
+            <li><a href="/#deep">深度解析</a></li>
+            <li><a href="/#faq">常见问题</a></li>
+            <li><a href="/#comments">读者评论</a></li>
+          </ul>
+        </div>
+        <div>
+          <h5>友情链接</h5>
+          <ul>
+            <li><a href="/#home">漫画在线首页</a></li>
+            <li><a href="/#ranking">排行榜占位</a></li>
+            <li><a href="/#news">资讯中心</a></li>
+            <li><a href="/#guide">体验指南</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 漫画在线 · 内容推荐与导航页面 · 仅供阅读参考</span>
+        <span>免责声明：本页面为内容聚合与推荐展示，具体阅读服务请以各平台官方页面为准。</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 简单的 FAQ 交互脚本 -->
+  <script>
+    document.querySelectorAll('.faq-q').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var item = this.closest('.faq-item');
+        item.classList.toggle('open');
+      });
+    });
+  </script>
+
+  <!-- 固定插入脚本 -->
+  <script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</body>
+  </html>
